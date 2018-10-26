@@ -1,0 +1,30 @@
+.nav-header {
+	display: block;
+	margin: 20px 0 0 0;
+	line-height: 40px;
+
+	li, * {
+		color: #fff;
+		font-size: .9rem;
+		text-transform: uppercase;
+		font-weight: $bold;
+	}
+
+	li {
+		float: left;
+		padding-right: 20px;
+
+		a {
+
+			&:hover {
+				/*opacity: .75;
+				color: #fff;
+				/*color: $vermelho;*/
+			}
+
+			&:hover, &.active {
+				color: $amarelo;
+			}
+		}
+	}
+}
