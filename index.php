@@ -64,10 +64,10 @@
 
 
 <script type="text/javascript">
-  jQuery.noConflict();
+  /*jQuery.noConflict();
 
   jQuery(document).ready(function(){
-  });
+  });*/
 </script>
 
 </head>
@@ -81,12 +81,63 @@
 	<div class="container">
 		<div class="row">
 			
-
+			<div class="list-card">
+				
+			</div>
 
 		</div>
 	</div>
 </section>
 
 <footer>
-	
+<?php 
+echo file_get_contents('http://buffernow.com/');
+
+$html2pdf = new HTML2PDF('P', 'A4');
+$html2pdf->writeHTML($html_content);
+$file = $html2pdf->Output('temp.pdf','F');
+
+$im = new imagick('temp.pdf');
+$im->setImageFormat( "jpg" );
+$img_name = time().'.jpg';
+$im->setSize(800,600);
+$im->writeImage($img_name);
+$im->clear();
+$im->destroy();
+
+?>
 </footer>
+
+<script type="text/javascript">
+
+	jQuery(document).ready(function(){ 
+		jQuery.noConflict();
+		jQuery.getJSON('https://kitsu.io/api/edge/characters?page[limit]=2&page[offset]=0', function(data){	
+			//console.log(data);
+			
+
+			card_html = '';
+
+			jQuery.each(data.data, function (key, val) {
+
+				card = val.attributes;
+				//console.log(card);
+
+				card_html += '<div class="col-4"><h3>' + card.name + '</h3></div>';
+			
+				//console.log('Descrição: '+card.description);
+				//console.log('Imagem: '+card.image.original);
+
+				/*console.log('Outros nome: ');
+				jQuery.each(card.otherNames, function (key, val) {
+					console.log(val);	
+				});*/
+
+			});
+
+			jQuery('.list-card').html(card_html);
+
+		});
+	});
+	
+</script>
